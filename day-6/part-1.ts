@@ -12,13 +12,12 @@ function main() {
 
   for (let i = 0; i < lines.length - 1; i++) {
     const line = lines[i]!;
-    console.log(`line: ${line}`);
 
     let j = 0;
     let numberString = "";
     const numbers: number[] = [];
 
-    while (j < line.length - 1) {
+    while (j < line.length) {
       if (line[j] === " " && numberString !== "") {
         const n = parseInt(numberString);
         numbers.push(n);
@@ -31,14 +30,15 @@ function main() {
       j++;
     }
 
-    numbers.push(parseInt(numberString));
+    const n = parseInt(numberString);
+    if (!isNaN(n)) {
+      numbers.push(n);
+    }
 
     numberGrid.push(numbers);
   }
 
-  console.log(lines);
   const opsLine = lines.pop()!;
-  console.log(`opsLine: ${opsLine}`);
   for (const c of opsLine) {
     if (c === "+") {
       operators.push("+");
@@ -48,18 +48,14 @@ function main() {
     }
   }
 
-  console.log(numberGrid);
-  console.log(operators);
 
   let grandTotal = 0;
   for (let i = 0; i < numberGrid[0]!.length; i++) {
     const operator = operators[i];
     let total = operator === "*" ? 1 : 0;
-    console.log(`Doing operator ${operator} for col ${i}`);
 
     for (let j = 0; j < numberGrid.length; j++) {
       const n = numberGrid[j]![i]!;
-      console.log(`  ${operator}: ${n}`);
 
       if (operator === "*") {
         total *= n;
@@ -69,7 +65,6 @@ function main() {
     }
 
     grandTotal += total;
-    console.log(total);
   }
 
   console.log(grandTotal);
